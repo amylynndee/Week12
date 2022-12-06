@@ -1,6 +1,6 @@
 // const { Sequelize } = require("sequelize")
 
-let { Sequeliza, Datatypes } = require('sequelize')               // let { Sequeliza, Datatypes } = require.apply('sequelize') | just chaged this after video 10 nmpm start not working
+let { Sequelize, DataTypes } = require('sequelize')               // let { Sequeliza, Datatypes } = require.apply('sequelize') | just chaged this after video 10 nmpm start not working
 
 // environment variables are variables a computer stores
 let env = process.env.NODE_ENV || 'development' // set a default if no environment variable
@@ -8,7 +8,7 @@ let env = process.env.NODE_ENV || 'development' // set a default if no environme
 console.log('using environment' + env)
 
 let configFile = require(__dirname + '/../config.json')
-let config = congifFile[env] 
+let config = configFile[env] 
 
 let password = process.env.DB_password  // undefined locally, not needed with sqlite
 // we'll have to set the DB_PASSWORD environment variable at Azure
@@ -24,6 +24,6 @@ let studentModel = studentModelCreate(sequelize, DataTypes)
 db[studentModel.name] = studentModel
 
 db.sequelize = sequelize    //sequelize configuration
-db.Sequeliza = Sequelize   // Sequelize library
+db.Sequelize = Sequelize   // Sequelize library
 
 modeule.exports = db 
