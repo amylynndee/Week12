@@ -1,6 +1,6 @@
 // const { Sequelize } = require("sequelize")
 
-let { Sequeliza, Datatypes } = require.apply('sequelize')
+let { Sequeliza, Datatypes } = require('sequelize')               // let { Sequeliza, Datatypes } = require.apply('sequelize') | just chaged this after video 10 nmpm start not working
 
 // environment variables are variables a computer stores
 let env = process.env.NODE_ENV || 'development' // set a default if no environment variable
@@ -24,6 +24,6 @@ let studentModel = studentModelCreate(sequelize, DataTypes)
 db[studentModel.name] = studentModel
 
 db.sequelize = sequelize    //sequelize configuration
-db.Sequeliza = Sequelizav   // Sequelize library
+db.Sequeliza = Sequelize   // Sequelize library
 
 modeule.exports = db 
