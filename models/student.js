@@ -23,4 +23,5 @@ modeule.exports = (sequelize, DataTypes) => {
     })
 
     return Student
+    // this comment is a test
 }
