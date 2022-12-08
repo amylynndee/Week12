@@ -1,12 +1,17 @@
 <template>
 
+<div id="app">
+    
+    <h1 class="m-2">Student Sign In</h1>
+
   <new-student-form v-on:student-added="newStudentAdded"></new-student-form>
   <student-table v-bind:students="students" 
   v-on:student-arrived-or-left="studentArrivedOrLeft"
-  v-on:delete-student="studentDelete"></student-table>    <!--changed this from deleteStudent to studentDeleted--> 
+  v-on:delete-student="studentDeleted"></student-table>    <!--changed this from deleteStudent to studentDeleted | also just corrected a typo-->  
 
   <student-message v-bind:student="mostRecentStudent"></student-message>
 
+</div>
 </template>
 
 <script>
@@ -35,11 +40,15 @@ export default {
     updateStudents() {
       this.$student_api.getAllStudents().then( students => {
         this.students = students
-      })
+      }).catch( () => alert('Unable to fetch student list'))
     },
     newStudentAdded(student) {
       this.$student_api.addStudent(student).then( () => {
         this.updateStudents()
+      })
+      .catch( err => {
+        let msg = err.response.data.join(',')
+        alert('Error adding student\n' + msg)
       })
     },
     studentArrivedOrLeft(student, present) {
@@ -47,13 +56,13 @@ export default {
       this.$student_api.updateStudent(student).then ( () => {
         this.mostRecentStudent = student
         this.updateStudents()
-      })
+      }).catch( () => alert('Unable to update student'))
     },
     studentDeleted(student) {                                       // changed this from deleteStudent to studentDeleted 
       this.$student_api.deleteStudent(student.id).then( () => {
         this.updateStudents()
         this.mostRecentStudent = {}     // clear weclome/goodbye message
-      })
+      }).catch( () => alert('Unable to delete student'))
     }
   }
 }

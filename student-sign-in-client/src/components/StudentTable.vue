@@ -35,27 +35,23 @@
 <script>
 
 import StudentRow from '@/components/StudentRow.vue'
-
 export default {
     name: 'StudentTable',
-    components: {
-        StudentRow
-    },
-    // emits: ['student-arrived-or-left'],
-    props: {
-        students: Array
-    },
-    data () {
+    components: { StudentRow },
+    emits: ['student-present', 'delete-student'],
+    data() {
         return {
             editTable: false
         }
     },
+    props: {
+        students: Array
+    },
     methods: {
         arrivedOrLeft(student, present) {
-            // emit message to parent 
-            this.$emit('student-arrived-or-left', student, present)
+            this.$emit('student-present', student, present)       
         },
-        studentDeleted(student) {                                    // changed this from deleteStudent to studentDeleted
+        studentDeleted(student) {
             this.$emit('delete-student', student)
         }
     }

@@ -3,13 +3,15 @@
         <td>{{ student.name }}</td>
         <td>{{ student.starID }}</td>
         <td><input type="checkbox" v-bind:checked="student.present" v-on:change="arrivedOrLeft(student, $event.target.checked)"></td>
-        <td v-show="edit"><img v-on:click="deleteStudent" src="@/assets/delete_2.png"></td>
+        <td v-show="edit">
+            <img v-on:click="deleteStudent" src="@/assets/delete_2.png"></td>
     </tr>
 </template>
 
 <script>
 export default {
     name: 'StudentRow',
+    emits: ['student-arrived-or-left', 'delete-student'], // just added this, compared my code to clara's and this was missing
     props: {
         student: Object,
         edit: Boolean
@@ -18,8 +20,9 @@ export default {
         arrivedOrLeft(student, present) {
             this.$emit('student-arrived-or-left', student, present)
         },
-        studentDeleted() {                                       // changed this from deleteStudent to studentDeleted
-            this.$emit('delete-student', this.student)
+        deleteStudent() {                                       // changed this from deleteStudent to studentDeleted | changed it back
+            if (confirm(`Delete ${this.student.name}?`)) {      // just added this, compared my code to clara's and this was missing
+                this.$emit('delete-student', this.student)
         }
     }
 
