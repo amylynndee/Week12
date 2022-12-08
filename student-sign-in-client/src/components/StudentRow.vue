@@ -18,7 +18,7 @@ export default {
         arrivedOrLeft(student, present) {
             this.$emit('student-arrived-or-left', student, present)
         },
-        deleteStudent() {
+        studentDeleted() {                                       // changed this from deleteStudent to studentDeleted
             this.$emit('delete-student', this.student)
         }
     }

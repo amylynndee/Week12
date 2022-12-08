@@ -23,7 +23,7 @@
                     v-bind:student="student" v-bind:key="student.starID"
                     v-bind:edit="editTable"
                     v-on:student-arrived-or-left="arrivedOrLeft"
-                    v-on:delete-student="deleteStudent">
+                    v-on:delete-student="studentDeleted">           <!--changed this from deleteStudent to studentDeleted--> 
                 </student-row>
 
                 </table>
@@ -55,7 +55,7 @@ export default {
             // emit message to parent 
             this.$emit('student-arrived-or-left', student, present)
         },
-        deleteStudent(student) {
+        studentDeleted(student) {                                    // changed this from deleteStudent to studentDeleted
             this.$emit('delete-student', student)
         }
     }

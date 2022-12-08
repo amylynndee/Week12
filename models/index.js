@@ -26,4 +26,4 @@ db[studentModel.name] = studentModel
 db.sequelize = sequelize    //sequelize configuration
 db.Sequelize = Sequelize   // Sequelize library
 
-modeule.exports = db 
+module.exports = db 

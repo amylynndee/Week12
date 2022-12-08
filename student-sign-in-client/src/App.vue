@@ -3,7 +3,7 @@
   <new-student-form v-on:student-added="newStudentAdded"></new-student-form>
   <student-table v-bind:students="students" 
   v-on:student-arrived-or-left="studentArrivedOrLeft"
-  v-on:delete-student="deleteStudent"></student-table>
+  v-on:delete-student="studentDelete"></student-table>    <!--changed this from deleteStudent to studentDeleted--> 
 
   <student-message v-bind:student="mostRecentStudent"></student-message>
 
@@ -15,51 +15,49 @@ import StudentMessage from './components/StudentMessage.vue'
 import StudentTable from './components/StudentTable.vue'
 
 export default {
-  name: 'App',
-  components: {
-    NewStudentForm,
-    StudentMessage,
-    StudentTable
-  },
+  name: 'app',
   data() {
     return {
       students: [],
       mostRecentStudent: {}
     }
   },
+  components: {
+    NewStudentForm,
+    StudentTable,
+    StudentMessage
+  },
+  mounted() {
+    // load all students - make request to API
+    this.updateStudents()
+  },
   methods: {
+    updateStudents() {
+      this.$student_api.getAllStudents().then( students => {
+        this.students = students
+      })
+    },
     newStudentAdded(student) {
-      this.students.push(student)
-      this.students.sort(function(s1, s2) {
-        return s1.name.toLowerCase() < s2.name.toLowerCase() ? -1 : 1
+      this.$student_api.addStudent(student).then( () => {
+        this.updateStudents()
       })
     },
     studentArrivedOrLeft(student, present) {
-      // find student in array of students
-      // update present attribute
-
-      let updateStudent = this.students.find( function(s) {
-        if (s.name === student.name && s.starID === student.starID) {
-          // this is the student to update
-          return true
-        }
+      student.present = present // update present value
+      this.$student_api.updateStudent(student).then ( () => {
+        this.mostRecentStudent = student
+        this.updateStudents()
       })
-
-      if (updateStudent) {
-        updateStudent.present = present
-        this.mostRecentStudent = updateStudent
-      }
     },
-    deleteStudent(student) {
-      // filter returns a new array of all students for whom the function returns true
-      this.students = this.students.filter( function(s) {
-        if (s != student) {
-          return true
-        }
+    studentDeleted(student) {                                       // changed this from deleteStudent to studentDeleted 
+      this.$student_api.deleteStudent(student.id).then( () => {
+        this.updateStudents()
+        this.mostRecentStudent = {}     // clear weclome/goodbye message
       })
     }
   }
 }
+
 </script>
 
 <style>
